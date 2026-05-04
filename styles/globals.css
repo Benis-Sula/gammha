@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #1B6B4E;
+    --color-primary-light: #2D9468;
+    --color-primary-dark: #144D38;
+    --color-accent: #E07847;
+    --color-accent-dark: #C25F30;
+    --color-surface: #FAFAF8;
+    --color-surface-alt: #F0F7F3;
+    --color-border: #D2E8DC;
+    --color-text: #1A2E24;
+    --color-text-muted: #4A6558;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    color: #1A2E24;
+    background-color: #FAFAF8;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lexend', sans-serif;
+    font-weight: 600;
+    color: #1A2E24;
+  }
+
+  *:focus-visible {
+    outline: 2px solid #1B6B4E;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .container-default {
+    @apply max-w-container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+
+  .section-padding-sm {
+    @apply py-12 md:py-16;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .eyebrow {
+    @apply text-sm font-semibold uppercase tracking-widest;
+  }
+
+  .input-base {
+    @apply w-full px-4 py-3 border-2 border-border rounded-lg text-text text-base placeholder:text-text-muted/60 focus:outline-none focus:border-primary transition-colors duration-200;
+  }
+}

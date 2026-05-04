@@ -1,0 +1,146 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model HeroSection {
+  id          String   @id @default(cuid())
+  pageSlug    String   @unique
+  eyebrow     String
+  title       String
+  description String
+  imageSrc    String
+  imageAlt    String
+  updatedAt   DateTime @updatedAt
+}
+
+model TeamMember {
+  id          String   @id @default(cuid())
+  name        String
+  role        String
+  description String
+  order       Int      @default(0)
+  updatedAt   DateTime @updatedAt
+}
+
+model Campaign {
+  id          String   @id @default(cuid())
+  title       String
+  status      String
+  description String
+  goals       String[]
+  order       Int      @default(0)
+  updatedAt   DateTime @updatedAt
+}
+
+model Condition {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String
+  signs       String[]
+  note        String
+  order       Int      @default(0)
+  updatedAt   DateTime @updatedAt
+}
+
+model ResourceArticle {
+  id          String   @id @default(cuid())
+  tag         String
+  title       String
+  description String
+  readTime    String
+  href        String
+  order       Int      @default(0)
+  updatedAt   DateTime @updatedAt
+}
+
+model Statistic {
+  id        String   @id @default(cuid())
+  group     String
+  value     String
+  label     String
+  order     Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model DonationTier {
+  id            String   @id @default(cuid())
+  amount        String
+  numericAmount Int
+  headline      String
+  impact        String
+  order         Int      @default(0)
+  updatedAt     DateTime @updatedAt
+}
+
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model FocusArea {
+  id          String   @id @default(cuid())
+  iconName    String
+  title       String
+  description String
+  href        String
+  order       Int      @default(0)
+  updatedAt   DateTime @updatedAt
+}
+
+model WarningSign {
+  id    String @id @default(cuid())
+  text  String
+  group String
+  order Int    @default(0)
+}
+
+model SupportChannel {
+  id           String @id @default(cuid())
+  iconName     String
+  title        String
+  description  String
+  action       String
+  href         String
+  availability String
+  order        Int    @default(0)
+}
+
+model InvolvementOption {
+  id          String @id @default(cuid())
+  iconName    String
+  title       String
+  description String
+  order       Int    @default(0)
+}
+
+model PolicyItem {
+  id    String @id @default(cuid())
+  title String
+  text  String
+  order Int    @default(0)
+}
+
+model ExternalLink {
+  id          String @id @default(cuid())
+  name        String
+  href        String
+  description String
+  order       Int    @default(0)
+}
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String?
+  email     String
+  subject   String?
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
