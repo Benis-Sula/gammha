@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import type { ContactSubmission } from '@prisma/client'
 import { prisma } from '@/lib/db'
 import {
   Users, Megaphone, HeartPulse, BookOpen, Home,
@@ -130,7 +131,7 @@ export default async function AdminDashboard() {
             </div>
           ) : (
             <ul className="divide-y divide-border/50">
-              {recentSubmissions.map((s) => (
+              {recentSubmissions.map((s: ContactSubmission) => (
                 <li key={s.id}>
                   <Link
                     href={`/admin/submissions/${s.id}`}
