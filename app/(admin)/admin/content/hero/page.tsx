@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import AdminPageHeader from '@/components/admin/AdminPageHeader'
 import AdminCard from '@/components/admin/AdminCard'
@@ -20,21 +20,21 @@ export default function HeroPage() {
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>()
 
-  async function load() {
+  const load = useCallback(async () => {
     const res = await fetch('/api/admin/hero')
     const data: Hero[] = await res.json()
     setHeroes(data)
     const active = data.find((h) => h.pageSlug === PAGES[0])
     if (active) reset({ eyebrow: active.eyebrow, title: active.title, description: active.description, imageSrc: active.imageSrc, imageAlt: active.imageAlt })
-  }
+  }, [reset])
 
-  useEffect(() => { load() }, [])
+  useEffect(() => { load() }, [load])
 
   useEffect(() => {
     const hero = heroes.find((h) => h.pageSlug === activeSlug)
     if (hero) reset({ eyebrow: hero.eyebrow, title: hero.title, description: hero.description, imageSrc: hero.imageSrc, imageAlt: hero.imageAlt })
     else reset({ eyebrow: '', title: '', description: '', imageSrc: '', imageAlt: '' })
-  }, [activeSlug, heroes])
+  }, [activeSlug, heroes, reset])
 
   async function onSubmit(data: FormData) {
     setSaved(false)
