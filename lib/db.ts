@@ -11,8 +11,7 @@ function makeUnavailableClient(): PrismaClient {
     get: () => new Proxy(() => Promise.reject(new Error('Database unavailable')), handler),
     apply: () => Promise.reject(new Error('Database unavailable')),
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return new Proxy({}, handler) as any
+  return new Proxy({}, handler) as any // satisfies PrismaClient return type
 }
 
 function createClient(): PrismaClient {
