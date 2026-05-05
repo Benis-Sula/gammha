@@ -11,7 +11,7 @@ function makeUnavailableClient(): PrismaClient {
     get: () => new Proxy(() => Promise.reject(new Error('Database unavailable')), handler),
     apply: () => Promise.reject(new Error('Database unavailable')),
   }
-  return new Proxy({} as PrismaClient, handler)
+  return new Proxy({} as unknown as PrismaClient, handler)
 }
 
 function createClient(): PrismaClient {
