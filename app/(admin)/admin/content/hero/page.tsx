@@ -32,6 +32,7 @@ export default function HeroPage() {
   const [imageSrc, setImageSrc] = useState('')
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>()
 
@@ -61,15 +62,16 @@ export default function HeroPage() {
 
   async function onSubmit(data: FormData) {
     setSaved(false)
+    setSaveError(null)
+    if (!imageSrc) { setSaveError('Please add an image before saving.'); return }
     setSaving(true)
     const existing = heroes.find((h) => h.pageSlug === activeSlug)
     const body = { ...data, imageSrc }
-    if (existing) {
-      await fetch(`/api/admin/hero/${existing.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
-    } else {
-      await fetch('/api/admin/hero', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...body, pageSlug: activeSlug }) })
-    }
+    const res = existing
+      ? await fetch(`/api/admin/hero/${existing.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      : await fetch('/api/admin/hero', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...body, pageSlug: activeSlug }) })
     setSaving(false)
+    if (!res.ok) { setSaveError('Save failed. Please try again.'); return }
     setSaved(true)
     load()
   }
@@ -113,6 +115,9 @@ export default function HeroPage() {
             required
           />
           <AdminFormField label="Image alt text" name="imageAlt" required register={register('imageAlt', { required: 'Required' })} error={errors.imageAlt?.message} placeholder="Descriptive text for screen readers" />
+          {saveError && (
+            <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{saveError}</p>
+          )}
           <div className="flex justify-end pt-2">
             <AdminSaveButton isLoading={saving} saved={saved} />
           </div>

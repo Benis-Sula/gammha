@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Upload, Link, X, ImageIcon, Loader2, AlertCircle } from 'lucide-react'
 import { useUploadThing } from '@/lib/uploadthing'
 
@@ -99,6 +99,10 @@ function UploadZone({ onSuccess, currentValue }: { onSuccess: (url: string) => v
 export default function AdminImageUpload({ value, onChange, label = 'Image', required }: Props) {
   const [mode, setMode] = useState<Mode>('url')
   const [urlInput, setUrlInput] = useState(value ?? '')
+
+  useEffect(() => {
+    setUrlInput(value ?? '')
+  }, [value])
 
   function commitUrl() {
     const trimmed = urlInput.trim()
