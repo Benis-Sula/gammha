@@ -1,5 +1,8 @@
 'use client'
 
+export const dynamic = "force-dynamic";
+
+
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import AdminPageHeader from '@/components/admin/AdminPageHeader'
@@ -64,7 +67,7 @@ export default function SupportPage() {
               <AdminFormField label="Button label" name="action" required register={register('action', { required: 'Required' })} error={errors.action?.message} placeholder="Call Now" />
               <AdminFormField label="Link (href)" name="href" register={register('href')} placeholder="tel:+2201234567" />
             </div>
-            <AdminFormField label="Availability" name="availability" register={register('availability')} placeholder="Mon–Fri, 8am–6pm" />
+            <AdminFormField label="Availability" name="availability" register={register('availability')} placeholder="Monâ€“Fri, 8amâ€“6pm" />
             <div className="flex justify-end gap-3 pt-2">
               <button type="button" onClick={() => setShowForm(false)} className="h-10 px-4 rounded-lg border border-border text-sm text-text hover:bg-gray-50 transition-colors cursor-pointer">Cancel</button>
               <AdminSaveButton isLoading={saving} saved={saved} />

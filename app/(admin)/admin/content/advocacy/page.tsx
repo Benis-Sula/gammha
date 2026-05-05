@@ -1,5 +1,8 @@
 'use client'
 
+export const dynamic = "force-dynamic";
+
+
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import AdminPageHeader from '@/components/admin/AdminPageHeader'
@@ -61,7 +64,7 @@ export default function AdvocacyPage() {
     setDeleting(false); setDeleteTarget(null); load()
   }
 
-  if (loading) return <p className="text-text-muted text-sm p-6">Loading…</p>
+  if (loading) return <p className="text-text-muted text-sm p-6">Loadingâ€¦</p>
 
   return (
     <div className="max-w-3xl space-y-6">

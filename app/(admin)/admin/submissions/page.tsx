@@ -1,5 +1,8 @@
 'use client'
 
+export const dynamic = "force-dynamic";
+
+
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import AdminPageHeader from '@/components/admin/AdminPageHeader'
@@ -33,7 +36,7 @@ export default function SubmissionsPage() {
 
       <div className="bg-white rounded-xl border border-border/50 shadow-card overflow-hidden">
         {loading ? (
-          <p className="text-text-muted text-sm p-6">Loading…</p>
+          <p className="text-text-muted text-sm p-6">Loadingâ€¦</p>
         ) : !data || data.items.length === 0 ? (
           <AdminEmptyState title="No submissions yet" description="Contact form submissions will appear here." />
         ) : (

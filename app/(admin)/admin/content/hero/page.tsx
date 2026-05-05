@@ -1,5 +1,8 @@
 'use client'
 
+export const dynamic = "force-dynamic";
+
+
 import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import AdminPageHeader from '@/components/admin/AdminPageHeader'
@@ -73,7 +76,7 @@ export default function HeroPage() {
           <AdminFormField label="Eyebrow text" name="eyebrow" register={register('eyebrow')} placeholder="e.g. Our Mission" />
           <AdminFormField label="Title" name="title" required register={register('title', { required: 'Required' })} error={errors.title?.message} placeholder="Main heading of the hero section" />
           <AdminFormField label="Description" name="description" type="textarea" rows={3} required register={register('description', { required: 'Required' })} error={errors.description?.message} />
-          <AdminFormField label="Image URL" name="imageSrc" type="url" required register={register('imageSrc', { required: 'Required' })} error={errors.imageSrc?.message} placeholder="https://images.unsplash.com/…" />
+          <AdminFormField label="Image URL" name="imageSrc" type="url" required register={register('imageSrc', { required: 'Required' })} error={errors.imageSrc?.message} placeholder="https://images.unsplash.com/â€¦" />
           <AdminFormField label="Image alt text" name="imageAlt" required register={register('imageAlt', { required: 'Required' })} error={errors.imageAlt?.message} placeholder="Descriptive text for screen readers" />
           <div className="flex justify-end pt-2">
             <AdminSaveButton isLoading={saving} saved={saved} />

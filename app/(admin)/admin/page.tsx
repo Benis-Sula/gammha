@@ -1,4 +1,7 @@
 import Link from 'next/link'
+
+export const dynamic = "force-dynamic";
+
 import type { ContactSubmission } from '@prisma/client'
 import { prisma } from '@/lib/db'
 import {
@@ -61,7 +64,7 @@ export default async function AdminDashboard() {
   return (
     <div className="max-w-5xl space-y-8">
 
-      {/* ── Top stats ── */}
+      {/* â”€â”€ Top stats â”€â”€ */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <StatCard label="Total Submissions" value={totalSubmissions} icon={<Inbox className="w-5 h-5" />} />
         <StatCard
@@ -75,7 +78,7 @@ export default async function AdminDashboard() {
         <StatCard label="Team Members" value={teamMembers} icon={<Users className="w-5 h-5" />} href="/admin/content/team" />
       </div>
 
-      {/* ── Content sections grid ── */}
+      {/* â”€â”€ Content sections grid â”€â”€ */}
       <section>
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-heading font-semibold text-text">Content Sections</h2>
@@ -114,7 +117,7 @@ export default async function AdminDashboard() {
         </div>
       </section>
 
-      {/* ── Recent submissions ── */}
+      {/* â”€â”€ Recent submissions â”€â”€ */}
       <section>
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-heading font-semibold text-text">Recent Submissions</h2>
@@ -140,7 +143,7 @@ export default async function AdminDashboard() {
                     <div className={`w-2 h-2 rounded-full shrink-0 ${!s.read ? 'bg-accent' : 'bg-transparent'}`} aria-label={!s.read ? 'Unread' : undefined} />
                     <div className="min-w-0 flex-1">
                       <p className={`text-sm truncate ${!s.read ? 'font-semibold text-text' : 'text-text-muted'}`}>
-                        {s.firstName} {s.lastName} — {s.subject ?? 'General enquiry'}
+                        {s.firstName} {s.lastName} â€” {s.subject ?? 'General enquiry'}
                       </p>
                       <p className="text-xs text-text-muted mt-0.5">{s.email}</p>
                     </div>

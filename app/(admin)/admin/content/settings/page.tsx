@@ -1,5 +1,8 @@
 'use client'
 
+export const dynamic = "force-dynamic";
+
+
 import { useEffect, useState } from 'react'
 import { ExternalLink, Phone, Mail, MapPin, Clock } from 'lucide-react'
 import AdminPageHeader from '@/components/admin/AdminPageHeader'
@@ -32,8 +35,8 @@ const FIELD_GROUPS = [
     icon: Clock,
     description: 'Opening hours shown on Contact, Support, and the homepage.',
     fields: [
-      { key: 'office_hours', label: 'General office hours', placeholder: 'Monday – Friday: 8am – 5pm' },
-      { key: 'office_hours_phone', label: 'Phone support hours', placeholder: 'Mon–Fri, 8am–6pm' },
+      { key: 'office_hours', label: 'General office hours', placeholder: 'Monday â€“ Friday: 8am â€“ 5pm' },
+      { key: 'office_hours_phone', label: 'Phone support hours', placeholder: 'Monâ€“Fri, 8amâ€“6pm' },
       { key: 'office_hours_whatsapp', label: 'WhatsApp hours', placeholder: '24/7 (responses within 2 hours)' },
     ],
   },

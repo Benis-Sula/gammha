@@ -1,5 +1,8 @@
 'use client'
 
+export const dynamic = "force-dynamic";
+
+
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import AdminPageHeader from '@/components/admin/AdminPageHeader'
@@ -85,7 +88,7 @@ export default function TeamPage() {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <AdminFormField label="Name" name="name" required register={register('name', { required: 'Required' })} error={errors.name?.message} placeholder="Dr. Fatou Jallow" />
             <AdminFormField label="Role / Title" name="role" required register={register('role', { required: 'Required' })} error={errors.role?.message} placeholder="Executive Director" />
-            <AdminFormField label="Bio" name="description" type="textarea" rows={4} required register={register('description', { required: 'Required' })} error={errors.description?.message} placeholder="Brief description of their role and background…" />
+            <AdminFormField label="Bio" name="description" type="textarea" rows={4} required register={register('description', { required: 'Required' })} error={errors.description?.message} placeholder="Brief description of their role and backgroundâ€¦" />
             <div className="flex items-center justify-end gap-3 pt-2">
               <button type="button" onClick={() => setShowForm(false)} className="h-10 px-4 rounded-lg border border-border text-sm text-text hover:bg-gray-50 transition-colors cursor-pointer">Cancel</button>
               <AdminSaveButton isLoading={saving} saved={saved} />

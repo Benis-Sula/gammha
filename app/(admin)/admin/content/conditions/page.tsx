@@ -1,5 +1,8 @@
 'use client'
 
+export const dynamic = "force-dynamic";
+
+
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import AdminPageHeader from '@/components/admin/AdminPageHeader'
@@ -63,7 +66,7 @@ export default function ConditionsPage() {
             </div>
             <AdminFormField label="Description" name="description" type="textarea" rows={3} required register={register('description', { required: 'Required' })} error={errors.description?.message} />
             <AdminArrayField label="Signs & Symptoms" items={signs} onChange={setSigns} placeholder="e.g. Persistent sadness or low mood" />
-            <AdminFormField label="Note / Advisory" name="note" type="textarea" rows={2} register={register('note')} placeholder="Additional guidance…" />
+            <AdminFormField label="Note / Advisory" name="note" type="textarea" rows={2} register={register('note')} placeholder="Additional guidanceâ€¦" />
             <div className="flex justify-end gap-3 pt-2">
               <button type="button" onClick={() => setShowForm(false)} className="h-10 px-4 rounded-lg border border-border text-sm text-text hover:bg-gray-50 transition-colors cursor-pointer">Cancel</button>
               <AdminSaveButton isLoading={saving} saved={saved} />

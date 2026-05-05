@@ -1,4 +1,7 @@
 import Link from 'next/link'
+
+export const dynamic = "force-dynamic";
+
 import AdminPageHeader from '@/components/admin/AdminPageHeader'
 import {
   Home, Users, Megaphone, HeartPulse, BookOpen,

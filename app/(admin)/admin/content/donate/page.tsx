@@ -1,5 +1,8 @@
 'use client'
 
+export const dynamic = "force-dynamic";
+
+
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import AdminPageHeader from '@/components/admin/AdminPageHeader'
@@ -60,7 +63,7 @@ export default function DonatePage() {
               <AdminFormField label="Numeric amount" name="numericAmount" type="number" required register={register('numericAmount', { required: 'Required', valueAsNumber: true })} error={errors.numericAmount?.message} placeholder="100" />
             </div>
             <AdminFormField label="Headline" name="headline" required register={register('headline', { required: 'Required' })} error={errors.headline?.message} placeholder="e.g. First steps" />
-            <AdminFormField label="Impact description" name="impact" type="textarea" rows={2} required register={register('impact', { required: 'Required' })} error={errors.impact?.message} placeholder="What this donation provides…" />
+            <AdminFormField label="Impact description" name="impact" type="textarea" rows={2} required register={register('impact', { required: 'Required' })} error={errors.impact?.message} placeholder="What this donation providesâ€¦" />
             <div className="flex justify-end gap-3 pt-2">
               <button type="button" onClick={() => setShowForm(false)} className="h-10 px-4 rounded-lg border border-border text-sm text-text hover:bg-gray-50 transition-colors cursor-pointer">Cancel</button>
               <AdminSaveButton isLoading={saving} saved={saved} />
