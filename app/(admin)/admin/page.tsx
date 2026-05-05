@@ -25,35 +25,45 @@ const contentSections = [
 ]
 
 export default async function AdminDashboard() {
-  const [
-    totalSubmissions,
-    unreadCount,
-    heroSections,
-    teamMembers,
-    campaigns,
-    conditions,
-    resourceArticles,
-    stats,
-    donationTiers,
-    focusAreas,
-    supportChannels,
-    policyItems,
-    recentSubmissions,
-  ] = await Promise.all([
-    prisma.contactSubmission.count(),
-    prisma.contactSubmission.count({ where: { read: false } }),
-    prisma.heroSection.count(),
-    prisma.teamMember.count(),
-    prisma.campaign.count(),
-    prisma.condition.count(),
-    prisma.resourceArticle.count(),
-    prisma.statistic.count(),
-    prisma.donationTier.count(),
-    prisma.focusArea.count(),
-    prisma.supportChannel.count(),
-    prisma.policyItem.count(),
-    prisma.contactSubmission.findMany({ orderBy: { createdAt: 'desc' }, take: 5 }),
-  ])
+  let totalSubmissions = 0, unreadCount = 0, heroSections = 0, teamMembers = 0,
+    campaigns = 0, conditions = 0, resourceArticles = 0, stats = 0,
+    donationTiers = 0, focusAreas = 0, supportChannels = 0, policyItems = 0
+  let recentSubmissions: ContactSubmission[] = []
+  let dbError = false
+
+  try {
+    ;[
+      totalSubmissions,
+      unreadCount,
+      heroSections,
+      teamMembers,
+      campaigns,
+      conditions,
+      resourceArticles,
+      stats,
+      donationTiers,
+      focusAreas,
+      supportChannels,
+      policyItems,
+      recentSubmissions,
+    ] = await Promise.all([
+      prisma.contactSubmission.count(),
+      prisma.contactSubmission.count({ where: { read: false } }),
+      prisma.heroSection.count(),
+      prisma.teamMember.count(),
+      prisma.campaign.count(),
+      prisma.condition.count(),
+      prisma.resourceArticle.count(),
+      prisma.statistic.count(),
+      prisma.donationTier.count(),
+      prisma.focusArea.count(),
+      prisma.supportChannel.count(),
+      prisma.policyItem.count(),
+      prisma.contactSubmission.findMany({ orderBy: { createdAt: 'desc' }, take: 5 }),
+    ])
+  } catch {
+    dbError = true
+  }
 
   const counts: Record<string, number> = {
     heroSections, teamMembers, campaigns, conditions,
@@ -62,7 +72,13 @@ export default async function AdminDashboard() {
   }
 
   return (
-    <div className="max-w-5xl space-y-8">
+    <div className=”max-w-5xl space-y-8”>
+
+      {dbError && (
+        <div className=”rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-800”>
+          <strong>Database unavailable.</strong> Add your environment variables in Vercel and redeploy to see live data.
+        </div>
+      )}
 
       {/* â”€â”€ Top stats â”€â”€ */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
