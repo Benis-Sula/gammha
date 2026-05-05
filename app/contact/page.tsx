@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
+
 import PageHero from "@/components/ui/PageHero";
 import ContactForm from "@/components/ContactForm";
 import { getHero, getSiteSettings } from "@/lib/data";

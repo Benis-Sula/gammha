@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
+
 import Image from "next/image";
 import { Target, Eye, Heart, Users, Award, ArrowRight, Megaphone } from "lucide-react";
 import type { LucideIcon } from "lucide-react";

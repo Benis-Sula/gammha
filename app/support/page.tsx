@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
+
 import Image from "next/image";
 import { Phone, MessageCircle, ShieldCheck, AlertTriangle } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";

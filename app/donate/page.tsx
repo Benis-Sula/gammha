@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
+
 import DonateForm from "@/components/DonateForm";
 import { getDonationTiers, getSiteSettings } from "@/lib/data";
 

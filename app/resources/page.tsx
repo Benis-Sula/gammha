@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
+
 import Link from "next/link";
 import { BookOpen, ArrowRight, ExternalLink } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
