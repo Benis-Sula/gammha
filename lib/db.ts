@@ -4,7 +4,10 @@ import { PrismaPg } from '@prisma/adapter-pg'
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
 
 function createClient() {
-  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! })
+  const adapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL!,
+    connectionTimeoutMillis: 3000,
+  })
   return new PrismaClient({ adapter, log: ['error'] })
 }
 
