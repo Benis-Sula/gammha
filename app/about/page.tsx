@@ -64,7 +64,7 @@ export default async function AboutPage() {
           />
         </div>
 
-        <div className="container-default relative z-10 py-20">
+        <div className="container-default relative z-10 py-12 md:py-16">
           <div className="max-w-2xl">
             <span className="inline-block px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-sm border border-white/25 text-white text-xs font-semibold uppercase tracking-widest mb-6">
               {pageHero.eyebrow}

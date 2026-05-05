@@ -72,7 +72,7 @@ function HeroSection({ hero, settings }: { hero: HeroData; settings: Record<stri
 
   return (
     <section
-      className="bg-surface pt-12 md:pt-20 overflow-hidden"
+      className="bg-surface pt-8 md:pt-12 overflow-hidden"
       aria-labelledby="hero-heading"
     >
       <div className="container-default">

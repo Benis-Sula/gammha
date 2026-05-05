@@ -16,12 +16,12 @@ export default function PageHero({
 }: PageHeroProps) {
   return (
     <section
-      className="bg-surface pt-28 md:pt-36 overflow-hidden"
+      className="bg-surface pt-8 md:pt-12 overflow-hidden"
       aria-labelledby={headingId}
     >
       <div className="container-default">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-end">
-          <div className="pb-12 lg:pb-16">
+          <div className="pb-8 lg:pb-12">
             <p className="text-sm font-semibold uppercase tracking-widest text-primary mb-4">
               {eyebrow}
             </p>
