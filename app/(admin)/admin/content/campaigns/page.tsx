@@ -14,7 +14,7 @@ import AdminDeleteDialog from '@/components/admin/AdminDeleteDialog'
 import AdminEmptyState from '@/components/admin/AdminEmptyState'
 import AdminListSkeleton from '@/components/admin/AdminListSkeleton'
 import AdminStatusBadge from '@/components/admin/AdminStatusBadge'
-import { Plus, Pencil, Trash2 } from 'lucide-react'
+import { Plus, Pencil, Trash2, ExternalLink } from 'lucide-react'
 
 interface Campaign { id: string; title: string; status: string; description: string; goals: string[]; order: number }
 type FormData = { title: string; status: string; description: string }
@@ -81,9 +81,15 @@ export default function CampaignsPage() {
         title="Campaigns"
         description="Manage advocacy campaigns shown on the Advocacy page."
         action={
-          <button onClick={openCreate} className="inline-flex items-center gap-2 h-10 px-4 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer">
-            <Plus className="w-4 h-4" /> Add campaign
-          </button>
+          <div className="flex items-center gap-2">
+            <a href="/advocacy" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 h-10 px-3 rounded-lg border border-border text-sm text-text-muted hover:text-text hover:bg-gray-50 transition-colors">
+              <ExternalLink className="w-3.5 h-3.5" />
+              View page
+            </a>
+            <button onClick={openCreate} className="inline-flex items-center gap-2 h-10 px-4 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer">
+              <Plus className="w-4 h-4" /> Add campaign
+            </button>
+          </div>
         }
       />
 

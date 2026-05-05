@@ -6,6 +6,7 @@ import { requireAdmin } from '@/lib/auth'
 const schema = z.object({
   name: z.string().min(1),
   role: z.string().min(1),
+  image: z.string().url().optional().nullable(),
   description: z.string().min(1),
   order: z.number().optional(),
 })

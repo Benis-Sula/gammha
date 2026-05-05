@@ -7,6 +7,7 @@ import { revalidatePath } from 'next/cache'
 const schema = z.object({
   name: z.string().min(1).optional(),
   role: z.string().min(1).optional(),
+  image: z.string().url().optional().nullable(),
   description: z.string().min(1).optional(),
   order: z.number().optional(),
 })

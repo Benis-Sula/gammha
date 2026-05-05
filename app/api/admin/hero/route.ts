@@ -15,7 +15,7 @@ const schema = z.object({
   eyebrow: z.string().min(1),
   title: z.string().min(1),
   description: z.string().min(1),
-  imageSrc: z.string().url(),
+  imageSrc: z.string().min(1),
   imageAlt: z.string().min(1),
 })
 

@@ -11,7 +11,7 @@ import AdminFormField from '@/components/admin/AdminFormField'
 import AdminSaveButton from '@/components/admin/AdminSaveButton'
 import AdminDeleteDialog from '@/components/admin/AdminDeleteDialog'
 import AdminEmptyState from '@/components/admin/AdminEmptyState'
-import { Plus, Pencil, Trash2 } from 'lucide-react'
+import { Plus, Pencil, Trash2, ExternalLink } from 'lucide-react'
 
 interface Option { id: string; iconName: string; title: string; description: string }
 interface PolicyItem { id: string; title: string; text: string }
@@ -68,7 +68,14 @@ export default function AdvocacyPage() {
 
   return (
     <div className="max-w-3xl space-y-6">
-      <AdminPageHeader title="Advocacy" description="Manage involvement options and policy items for the Advocacy page." />
+      <AdminPageHeader title="Advocacy" description="Manage involvement options and policy items for the Advocacy page."
+        action={
+          <a href="/advocacy" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 h-10 px-3 rounded-lg border border-border text-sm text-text-muted hover:text-text hover:bg-gray-50 transition-colors">
+            <ExternalLink className="w-3.5 h-3.5" />
+            View page
+          </a>
+        }
+      />
 
       {/* Get Involved */}
       <AdminCard title="Get Involved Options" description={`${options.length} options`}

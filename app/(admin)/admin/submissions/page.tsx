@@ -58,6 +58,9 @@ export default function SubmissionsPage() {
                       </div>
                       <p className="text-text-muted text-xs mt-0.5">{s.email}</p>
                       {s.subject && <p className="text-text-muted text-xs mt-0.5 truncate">{s.subject}</p>}
+                      <p className="text-text-muted text-xs mt-0.5 truncate italic">
+                        {s.message.length > 80 ? s.message.slice(0, 80) + '…' : s.message}
+                      </p>
                     </div>
                     <time className="text-xs text-text-muted shrink-0 mt-0.5">
                       {new Date(s.createdAt).toLocaleDateString()}

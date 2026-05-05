@@ -12,7 +12,7 @@ import AdminSaveButton from '@/components/admin/AdminSaveButton'
 import AdminDeleteDialog from '@/components/admin/AdminDeleteDialog'
 import AdminEmptyState from '@/components/admin/AdminEmptyState'
 import AdminListSkeleton from '@/components/admin/AdminListSkeleton'
-import { Plus, Pencil, Trash2 } from 'lucide-react'
+import { Plus, Pencil, Trash2, ExternalLink } from 'lucide-react'
 
 interface Article { id: string; tag: string; title: string; description: string; readTime: string; href: string }
 interface ExtLink { id: string; name: string; href: string; description: string }
@@ -69,7 +69,14 @@ export default function ResourcesPage() {
 
   return (
     <div className="max-w-3xl space-y-6">
-      <AdminPageHeader title="Resources & Links" description="Manage resource articles and external organization links." />
+      <AdminPageHeader title="Resources & Links" description="Manage resource articles and external organization links."
+        action={
+          <a href="/resources" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 h-10 px-3 rounded-lg border border-border text-sm text-text-muted hover:text-text hover:bg-gray-50 transition-colors">
+            <ExternalLink className="w-3.5 h-3.5" />
+            View page
+          </a>
+        }
+      />
 
       {/* Articles */}
       <AdminCard title="Resource Articles" description={`${articles.length} articles`}

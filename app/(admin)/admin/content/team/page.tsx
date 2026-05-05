@@ -2,7 +2,6 @@
 
 export const dynamic = "force-dynamic";
 
-
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import AdminPageHeader from '@/components/admin/AdminPageHeader'
@@ -12,9 +11,10 @@ import AdminSaveButton from '@/components/admin/AdminSaveButton'
 import AdminDeleteDialog from '@/components/admin/AdminDeleteDialog'
 import AdminEmptyState from '@/components/admin/AdminEmptyState'
 import AdminListSkeleton from '@/components/admin/AdminListSkeleton'
-import { Plus, Pencil, Trash2 } from 'lucide-react'
+import AdminImageUpload from '@/components/admin/AdminImageUpload'
+import { Plus, Pencil, Trash2, ExternalLink } from 'lucide-react'
 
-interface Member { id: string; name: string; role: string; description: string; order: number }
+interface Member { id: string; name: string; role: string; image?: string | null; description: string; order: number; updatedAt: string }
 type FormData = { name: string; role: string; description: string }
 
 export default function TeamPage() {
@@ -26,6 +26,7 @@ export default function TeamPage() {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [deleting, setDeleting] = useState(false)
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>()
 
@@ -39,12 +40,14 @@ export default function TeamPage() {
 
   function openCreate() {
     setEditing(null)
+    setImageUrl(null)
     reset({ name: '', role: '', description: '' })
     setShowForm(true)
   }
 
   function openEdit(m: Member) {
     setEditing(m)
+    setImageUrl(m.image ?? null)
     reset({ name: m.name, role: m.role, description: m.description })
     setShowForm(true)
   }
@@ -54,7 +57,11 @@ export default function TeamPage() {
     setSaving(true)
     const url = editing ? `/api/admin/team/${editing.id}` : '/api/admin/team'
     const method = editing ? 'PATCH' : 'POST'
-    await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+    await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, image: imageUrl }),
+    })
     setSaving(false)
     setSaved(true)
     setShowForm(false)
@@ -76,9 +83,20 @@ export default function TeamPage() {
         title="Team Members"
         description="Manage the team shown on the About page."
         action={
-          <button onClick={openCreate} className="inline-flex items-center gap-2 h-10 px-4 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer">
-            <Plus className="w-4 h-4" /> Add member
-          </button>
+          <div className="flex items-center gap-2">
+            <a
+              href="/about"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 h-10 px-3 rounded-lg border border-border text-sm text-text-muted hover:text-text hover:bg-gray-50 transition-colors"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              View page
+            </a>
+            <button onClick={openCreate} className="inline-flex items-center gap-2 h-10 px-4 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-dark transition-colors cursor-pointer">
+              <Plus className="w-4 h-4" /> Add member
+            </button>
+          </div>
         }
       />
 
@@ -88,7 +106,8 @@ export default function TeamPage() {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <AdminFormField label="Name" name="name" required register={register('name', { required: 'Required' })} error={errors.name?.message} placeholder="Dr. Fatou Jallow" />
             <AdminFormField label="Role / Title" name="role" required register={register('role', { required: 'Required' })} error={errors.role?.message} placeholder="Executive Director" />
-            <AdminFormField label="Bio" name="description" type="textarea" rows={4} required register={register('description', { required: 'Required' })} error={errors.description?.message} placeholder="Brief description of their role and backgroundâ€¦" />
+            <AdminImageUpload label="Photo" value={imageUrl} onChange={setImageUrl} />
+            <AdminFormField label="Bio" name="description" type="textarea" rows={4} required register={register('description', { required: 'Required' })} error={errors.description?.message} placeholder="Brief description of their role and background…" />
             <div className="flex items-center justify-end gap-3 pt-2">
               <button type="button" onClick={() => setShowForm(false)} className="h-10 px-4 rounded-lg border border-border text-sm text-text hover:bg-gray-50 transition-colors cursor-pointer">Cancel</button>
               <AdminSaveButton isLoading={saving} saved={saved} />
@@ -107,13 +126,18 @@ export default function TeamPage() {
           <ul className="divide-y divide-border/50">
             {members.map((m) => (
               <li key={m.id} className="flex items-start gap-4 py-4">
-                <div className="w-10 h-10 rounded-full bg-surface-alt flex items-center justify-center text-primary font-semibold text-sm shrink-0">
-                  {m.name[0]}
-                </div>
+                {m.image ? (
+                  <img src={m.image} alt={m.name} className="w-10 h-10 rounded-full object-cover shrink-0 bg-gray-100" />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-surface-alt flex items-center justify-center text-primary font-semibold text-sm shrink-0">
+                    {m.name[0]}
+                  </div>
+                )}
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-text text-sm">{m.name}</p>
                   <p className="text-text-muted text-xs mt-0.5">{m.role}</p>
                   <p className="text-text-muted text-xs mt-1 line-clamp-2">{m.description}</p>
+                  <p className="text-text-muted text-[10px] mt-1">Updated {new Date(m.updatedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                 </div>
                 <div className="flex items-center gap-1 shrink-0">
                   <button onClick={() => openEdit(m)} className="w-9 h-9 rounded-lg border border-border text-text-muted hover:text-primary hover:border-primary/40 transition-colors flex items-center justify-center cursor-pointer" aria-label="Edit">

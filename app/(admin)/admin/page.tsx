@@ -7,14 +7,15 @@ import { prisma } from '@/lib/db'
 import {
   Users, Megaphone, HeartPulse, BookOpen, Home,
   Headphones, Scale, Settings, Inbox, BarChart2, Heart, FileText,
-  ArrowRight, TrendingUp,
+  ArrowRight, TrendingUp, Image as ImageIcon, TriangleAlert,
 } from 'lucide-react'
 
 const contentSections = [
-  { href: '/admin/content/hero', label: 'Hero Sections', icon: Home, description: 'Edit page hero content & images', countKey: 'heroSections' },
+  { href: '/admin/content/hero', label: 'Hero Sections', icon: ImageIcon, description: 'Edit page hero content & images', countKey: 'heroSections' },
   { href: '/admin/content/team', label: 'Team Members', icon: Users, description: 'Manage the team on the About page', countKey: 'teamMembers' },
   { href: '/admin/content/campaigns', label: 'Campaigns', icon: Megaphone, description: 'Advocacy campaigns and goals', countKey: 'campaigns' },
   { href: '/admin/content/conditions', label: 'Health Conditions', icon: HeartPulse, description: 'Maternal health conditions info', countKey: 'conditions' },
+  { href: '/admin/content/warning-signs', label: 'Warning Signs', icon: TriangleAlert, description: 'When to seek help — Mental Health page', countKey: 'warningSigns' },
   { href: '/admin/content/resources', label: 'Resources', icon: BookOpen, description: 'Articles and external links', countKey: 'resources' },
   { href: '/admin/content/stats', label: 'Statistics', icon: BarChart2, description: 'Key statistics across pages', countKey: 'stats' },
   { href: '/admin/content/donate', label: 'Donation Tiers', icon: Heart, description: 'Impact amounts for the donate page', countKey: 'donationTiers' },
@@ -26,7 +27,7 @@ const contentSections = [
 
 export default async function AdminDashboard() {
   let totalSubmissions = 0, unreadCount = 0, heroSections = 0, teamMembers = 0,
-    campaigns = 0, conditions = 0, resourceArticles = 0, stats = 0,
+    campaigns = 0, conditions = 0, warningSigns = 0, resourceArticles = 0, stats = 0,
     donationTiers = 0, focusAreas = 0, supportChannels = 0, policyItems = 0
   let recentSubmissions: ContactSubmission[] = []
   let dbError = false
@@ -39,6 +40,7 @@ export default async function AdminDashboard() {
       teamMembers,
       campaigns,
       conditions,
+      warningSigns,
       resourceArticles,
       stats,
       donationTiers,
@@ -53,6 +55,7 @@ export default async function AdminDashboard() {
       prisma.teamMember.count(),
       prisma.campaign.count(),
       prisma.condition.count(),
+      prisma.warningSign.count(),
       prisma.resourceArticle.count(),
       prisma.statistic.count(),
       prisma.donationTier.count(),
@@ -66,7 +69,7 @@ export default async function AdminDashboard() {
   }
 
   const counts: Record<string, number> = {
-    heroSections, teamMembers, campaigns, conditions,
+    heroSections, teamMembers, campaigns, conditions, warningSigns,
     resources: resourceArticles, stats, donationTiers,
     focusAreas, supportChannels, policyItems,
   }
@@ -105,6 +108,7 @@ export default async function AdminDashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {contentSections.map((section) => {
             const count = section.countKey ? counts[section.countKey] : null
+            const isEmpty = count !== null && count === 0
             return (
               <Link
                 key={section.href}
@@ -119,9 +123,15 @@ export default async function AdminDashboard() {
                     <div className="flex items-center justify-between gap-2">
                       <p className="font-medium text-text text-sm">{section.label}</p>
                       {count !== null && (
-                        <span className="text-xs font-semibold text-primary bg-primary/10 rounded-full px-2 py-0.5 shrink-0">
-                          {count}
-                        </span>
+                        isEmpty ? (
+                          <span className="text-xs font-semibold text-amber-700 bg-amber-100 rounded-full px-2 py-0.5 shrink-0">
+                            Empty
+                          </span>
+                        ) : (
+                          <span className="text-xs font-semibold text-primary bg-primary/10 rounded-full px-2 py-0.5 shrink-0">
+                            {count}
+                          </span>
+                        )
                       )}
                     </div>
                     <p className="text-text-muted text-xs mt-0.5 truncate">{section.description}</p>
@@ -161,7 +171,9 @@ export default async function AdminDashboard() {
                       <p className={`text-sm truncate ${!s.read ? 'font-semibold text-text' : 'text-text-muted'}`}>
                         {s.firstName} {s.lastName} &mdash; {s.subject ?? 'General enquiry'}
                       </p>
-                      <p className="text-xs text-text-muted mt-0.5">{s.email}</p>
+                      <p className="text-xs text-text-muted mt-0.5 truncate italic">
+                        {s.message.length > 70 ? s.message.slice(0, 70) + '…' : s.message}
+                      </p>
                     </div>
                     <time className="text-xs text-text-muted shrink-0">
                       {new Date(s.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}

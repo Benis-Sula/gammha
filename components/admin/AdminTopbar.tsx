@@ -18,6 +18,7 @@ const breadcrumbs: Record<string, string> = {
   '/admin/content/support': 'Support Channels',
   '/admin/content/advocacy': 'Advocacy',
   '/admin/content/settings': 'Site Settings',
+  '/admin/content/warning-signs': 'Warning Signs',
 }
 
 interface Props {

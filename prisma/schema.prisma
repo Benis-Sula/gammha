@@ -21,6 +21,7 @@ model TeamMember {
   id          String   @id @default(cuid())
   name        String
   role        String
+  image       String?
   description String
   order       Int      @default(0)
   updatedAt   DateTime @updatedAt

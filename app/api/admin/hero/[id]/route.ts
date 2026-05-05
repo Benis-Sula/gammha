@@ -8,7 +8,7 @@ const schema = z.object({
   eyebrow: z.string().min(1).optional(),
   title: z.string().min(1).optional(),
   description: z.string().min(1).optional(),
-  imageSrc: z.string().url().optional(),
+  imageSrc: z.string().min(1).optional(),
   imageAlt: z.string().min(1).optional(),
 })
 
