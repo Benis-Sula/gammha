@@ -6,8 +6,8 @@ import { signOut } from 'next-auth/react'
 import {
   LayoutDashboard, FileText, Users, Megaphone, HeartPulse,
   BookOpen, BarChart2, Heart, Home, Headphones, Scale,
-  Settings, Inbox, LogOut, X, ShieldCheck, ChevronLeft, ChevronRight,
-  Image as ImageIcon, TriangleAlert,
+  Settings, Inbox, LogOut, X, ShieldCheck,
+  ChevronLeft, ChevronRight, Image as ImageIcon, TriangleAlert,
 } from 'lucide-react'
 
 const navGroups = [
@@ -66,59 +66,64 @@ export default function AdminSidebar({ unreadCount = 0, open, onClose, collapsed
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full bg-[#1A2E24] z-40 flex flex-col transition-all duration-200 overflow-visible
-          ${collapsed ? 'w-16' : 'w-60'}
+        className={`fixed top-0 left-0 h-full bg-[#1A2E24] z-40 flex flex-col transition-[width] duration-300 ease-in-out
+          ${collapsed ? 'w-16' : 'w-64'}
           ${open ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}
         aria-label="Admin navigation"
       >
-        {/* Header */}
-        <div className={`flex items-center border-b border-white/10 shrink-0 h-14 ${collapsed ? 'justify-center px-0' : 'justify-between px-4'}`}>
-          {!collapsed && (
-            <div className="flex items-center gap-2.5">
+
+        {/* ── Header ── */}
+        <div className="flex items-center justify-between h-14 px-3 border-b border-white/10 shrink-0">
+          {/* Logo + brand */}
+          <div className={`flex items-center gap-2.5 overflow-hidden transition-all duration-300 ${collapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
+            <div className="w-8 h-8 rounded-lg bg-primary-light flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-4 h-4 text-white" />
+            </div>
+            <span className="font-heading font-bold text-white text-sm whitespace-nowrap">GAMMHA Admin</span>
+          </div>
+
+          {/* Collapsed: centered logo only */}
+          {collapsed && (
+            <div className="flex-1 flex justify-center">
               <div className="w-8 h-8 rounded-lg bg-primary-light flex items-center justify-center">
                 <ShieldCheck className="w-4 h-4 text-white" />
               </div>
-              <span className="font-heading font-bold text-white text-sm">GAMMHA Admin</span>
-            </div>
-          )}
-          {collapsed && (
-            <div className="w-8 h-8 rounded-lg bg-primary-light flex items-center justify-center">
-              <ShieldCheck className="w-4 h-4 text-white" />
             </div>
           )}
 
-          {/* Mobile close */}
-          {!collapsed && (
-            <button
-              onClick={onClose}
-              className="lg:hidden p-1 rounded text-white/60 hover:text-white transition-colors cursor-pointer"
-              aria-label="Close sidebar"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          )}
+          {/* Mobile close button */}
+          <button
+            onClick={onClose}
+            className="lg:hidden p-1.5 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+            aria-label="Close sidebar"
+          >
+            <X className="w-4 h-4" />
+          </button>
 
-          {/* Desktop collapse toggle */}
+          {/* Desktop collapse toggle — always visible, clearly styled */}
           <button
             onClick={onToggleCollapse}
-            className={`hidden lg:flex items-center justify-center w-6 h-6 rounded text-white/60 hover:text-white transition-colors cursor-pointer
-              ${collapsed ? 'absolute -right-3 top-4 bg-[#1A2E24] border border-white/10 rounded-full w-6 h-6 z-50' : ''}`}
+            className="hidden lg:flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer shrink-0"
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
-            {collapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronLeft className="w-3.5 h-3.5" />}
+            {collapsed
+              ? <ChevronRight className="w-4 h-4" />
+              : <ChevronLeft className="w-4 h-4" />}
           </button>
         </div>
 
-        {/* Nav */}
-        <nav className={`flex-1 overflow-y-auto py-4 space-y-5 ${collapsed ? 'px-1.5' : 'px-3'}`}>
+        {/* ── Nav ── */}
+        <nav className="flex-1 overflow-y-auto overflow-x-hidden py-3 px-2 space-y-4">
           {navGroups.map((group) => (
             <div key={group.label}>
-              {!collapsed && (
-                <p className="text-white/40 text-[10px] font-semibold uppercase tracking-widest px-2 mb-1.5">
+              {/* Group label — hidden when collapsed */}
+              <div className={`overflow-hidden transition-all duration-200 ${collapsed ? 'h-0 opacity-0 mb-0' : 'h-5 opacity-100 mb-1'}`}>
+                <p className="text-white/40 text-[10px] font-semibold uppercase tracking-widest px-2">
                   {group.label}
                 </p>
-              )}
-              {collapsed && <div className="border-t border-white/10 mx-1 mb-2" />}
+              </div>
+
               <ul className="space-y-0.5">
                 {group.items.map((item) => {
                   const active = isActive(item.href, item.exact)
@@ -127,36 +132,46 @@ export default function AdminSidebar({ unreadCount = 0, open, onClose, collapsed
                       <Link
                         href={item.href}
                         onClick={onClose}
-                        title={collapsed ? item.label : undefined}
-                        className={`flex items-center py-2 rounded-lg text-sm transition-colors cursor-pointer relative
-                          ${collapsed ? 'justify-center px-0 w-full' : 'gap-3 px-3'}
+                        className={`flex items-center gap-3 px-2 py-2 rounded-lg text-sm transition-colors cursor-pointer relative
+                          ${collapsed ? 'justify-center' : ''}
                           ${active
-                            ? 'bg-white/10 text-white font-medium'
-                            : 'text-white/60 hover:text-white hover:bg-white/5'
+                            ? 'bg-white/15 text-white font-medium'
+                            : 'text-white/60 hover:text-white hover:bg-white/8'
                           }`}
                       >
+                        {/* Active indicator bar */}
                         {active && !collapsed && (
                           <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-accent rounded-r-full" />
                         )}
+
                         <item.icon className="w-4 h-4 shrink-0" />
-                        {!collapsed && <span className="truncate">{item.label}</span>}
-                        {!collapsed && item.href === '/admin/submissions' && unreadCount > 0 && (
-                          <span className="ml-auto bg-accent text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
-                            {unreadCount > 99 ? '99+' : unreadCount}
-                          </span>
-                        )}
-                        {collapsed && item.href === '/admin/submissions' && unreadCount > 0 && (
-                          <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-accent rounded-full" />
+
+                        {/* Label — animated out when collapsed */}
+                        <span className={`truncate transition-all duration-200 ${collapsed ? 'w-0 opacity-0 overflow-hidden' : 'w-auto opacity-100'}`}>
+                          {item.label}
+                        </span>
+
+                        {/* Unread badge */}
+                        {item.href === '/admin/submissions' && unreadCount > 0 && (
+                          collapsed ? (
+                            <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full" />
+                          ) : (
+                            <span className="ml-auto bg-accent text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
+                              {unreadCount > 99 ? '99+' : unreadCount}
+                            </span>
+                          )
                         )}
                       </Link>
 
-                      {/* Tooltip for collapsed state */}
+                      {/* Tooltip shown when collapsed */}
                       {collapsed && (
-                        <span className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2 z-50
-                          hidden lg:group-hover/navitem:flex
-                          items-center px-2 py-1 rounded-md bg-gray-900 text-white text-xs whitespace-nowrap shadow-lg">
-                          {item.label}
-                        </span>
+                        <div className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-3 z-[60]
+                          opacity-0 group-hover/navitem:opacity-100 translate-x-1 group-hover/navitem:translate-x-0
+                          transition-all duration-150">
+                          <span className="flex items-center px-2.5 py-1.5 rounded-lg bg-gray-900 text-white text-xs whitespace-nowrap shadow-xl">
+                            {item.label}
+                          </span>
+                        </div>
                       )}
                     </li>
                   )
@@ -166,23 +181,28 @@ export default function AdminSidebar({ unreadCount = 0, open, onClose, collapsed
           ))}
         </nav>
 
-        {/* Footer */}
-        <div className={`border-t border-white/10 shrink-0 ${collapsed ? 'p-1.5' : 'p-3'}`}>
+        {/* ── Footer ── */}
+        <div className="border-t border-white/10 p-2 shrink-0">
           <div className="relative group/signout">
             <button
               onClick={() => signOut({ callbackUrl: '/login' })}
-              className={`flex items-center py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/5 transition-colors w-full cursor-pointer
-                ${collapsed ? 'justify-center px-0' : 'gap-3 px-3'}`}
+              className={`flex items-center gap-3 px-2 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 transition-colors w-full cursor-pointer
+                ${collapsed ? 'justify-center' : ''}`}
             >
               <LogOut className="w-4 h-4 shrink-0" />
-              {!collapsed && <span>Sign out</span>}
-            </button>
-            {collapsed && (
-              <span className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2 z-50
-                hidden lg:group-hover/signout:flex
-                items-center px-2 py-1 rounded-md bg-gray-900 text-white text-xs whitespace-nowrap shadow-lg">
+              <span className={`truncate transition-all duration-200 ${collapsed ? 'w-0 opacity-0 overflow-hidden' : 'w-auto opacity-100'}`}>
                 Sign out
               </span>
+            </button>
+
+            {collapsed && (
+              <div className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-3 z-[60]
+                opacity-0 group-hover/signout:opacity-100 translate-x-1 group-hover/signout:translate-x-0
+                transition-all duration-150">
+                <span className="flex items-center px-2.5 py-1.5 rounded-lg bg-gray-900 text-white text-xs whitespace-nowrap shadow-xl">
+                  Sign out
+                </span>
+              </div>
             )}
           </div>
         </div>
