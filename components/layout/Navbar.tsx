@@ -73,9 +73,9 @@ export default function Navbar() {
           <Image
             src="/brand/gammha.png"
             alt="GAMMHA Logo"
-            width={160}
-            height={48}
-            className="h-9 w-auto object-contain"
+            width={240}
+            height={72}
+            className="h-12 md:h-14 w-auto object-contain"
             priority
           />
         </Link>

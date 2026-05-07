@@ -41,9 +41,9 @@ export default function Footer() {
               <Image
                 src="/brand/gammha.png"
                 alt="GAMMHA Logo"
-                width={160}
-                height={48}
-                className="h-10 w-auto object-contain brightness-0 invert"
+                width={280}
+                height={84}
+                className="h-14 md:h-16 w-auto object-contain brightness-0 invert"
               />
             </Link>
             <p className="mt-4 text-white/80 text-base leading-relaxed max-w-sm">
