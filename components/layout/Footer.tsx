@@ -38,13 +38,15 @@ export default function Footer() {
               className="inline-flex items-center mb-6"
               aria-label="GAMMHA Home"
             >
-              <Image
-                src="/brand/gammha.png"
-                alt="GAMMHA Logo"
-                width={280}
-                height={84}
-                className="h-14 md:h-16 w-auto object-contain brightness-0 invert"
-              />
+              <div className="bg-white p-2 md:p-3 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200">
+                <Image
+                  src="/brand/gammha.png"
+                  alt="GAMMHA Logo"
+                  width={320}
+                  height={96}
+                  className="h-16 md:h-20 w-auto object-contain"
+                />
+              </div>
             </Link>
             <p className="mt-4 text-white/80 text-base leading-relaxed max-w-sm">
               Gambia Alliance for Maternal Mental Health &amp; Advocacy.
