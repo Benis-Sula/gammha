@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 
 import { useEffect, useState } from 'react'
-import { ExternalLink, Phone, Mail, MapPin, Clock } from 'lucide-react'
+import { ExternalLink, Phone, Mail, MapPin, Clock, Navigation, Globe, AlignLeft } from 'lucide-react'
 import AdminPageHeader from '@/components/admin/AdminPageHeader'
 import AdminCard from '@/components/admin/AdminCard'
 import AdminSaveButton from '@/components/admin/AdminSaveButton'
@@ -35,9 +35,37 @@ const FIELD_GROUPS = [
     icon: Clock,
     description: 'Opening hours shown on Contact, Support, and the homepage.',
     fields: [
-      { key: 'office_hours', label: 'General office hours', placeholder: 'Monday â€“ Friday: 8am â€“ 5pm' },
-      { key: 'office_hours_phone', label: 'Phone support hours', placeholder: 'Monâ€“Fri, 8amâ€“6pm' },
+      { key: 'office_hours', label: 'General office hours', placeholder: 'Monday – Friday: 8am – 5pm' },
+      { key: 'office_hours_phone', label: 'Phone support hours', placeholder: 'Mon–Fri, 8am–6pm' },
       { key: 'office_hours_whatsapp', label: 'WhatsApp hours', placeholder: '24/7 (responses within 2 hours)' },
+    ],
+  },
+  {
+    title: 'Navbar Labels',
+    icon: Navigation,
+    description: 'Text labels for the logo and CTA buttons in the navigation bar.',
+    fields: [
+      { key: 'navbar_logo_text', label: 'Logo text', placeholder: 'GAMMHA' },
+      { key: 'navbar_cta_help_label', label: '”Get Help” button label', placeholder: 'Get Help' },
+      { key: 'navbar_cta_donate_label', label: '”Donate” button label', placeholder: 'Donate' },
+    ],
+  },
+  {
+    title: 'Footer Text',
+    icon: AlignLeft,
+    description: 'Text shown in the footer branding area.',
+    fields: [
+      { key: 'footer_branding_description', label: 'Branding description (below logo)', placeholder: 'Gambia Alliance for Maternal Mental Health & Advocacy...' },
+      { key: 'footer_tagline', label: 'Footer tagline (after heart icon)', placeholder: 'for mothers in The Gambia' },
+    ],
+  },
+  {
+    title: 'Contact Form Subject Options',
+    icon: Globe,
+    description: 'Dropdown options for the contact forms. Enter one option per line.',
+    fields: [
+      { key: 'form_subjects_support', label: 'Support page form subjects (one per line)', placeholder: 'General Inquiry\nSupport for Myself\n...', type: 'textarea' },
+      { key: 'form_subjects_contact', label: 'Contact page form subjects (one per line)', placeholder: 'I need support\nI want to volunteer\n...', type: 'textarea' },
     ],
   },
 ]
@@ -104,14 +132,25 @@ export default function SettingsPage() {
                     <label htmlFor={f.key} className="block text-sm font-medium text-text mb-1.5">
                       {f.label}
                     </label>
-                    <input
-                      id={f.key}
-                      type={f.type ?? 'text'}
-                      value={values[f.key] ?? ''}
-                      onChange={(e) => setValues({ ...values, [f.key]: e.target.value })}
-                      placeholder={f.placeholder}
-                      className="w-full h-10 rounded-lg border border-border bg-surface px-3 text-text placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors text-sm"
-                    />
+                    {f.type === 'textarea' ? (
+                      <textarea
+                        id={f.key}
+                        rows={5}
+                        value={values[f.key] ?? ''}
+                        onChange={(e) => setValues({ ...values, [f.key]: e.target.value })}
+                        placeholder={f.placeholder}
+                        className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-text placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors text-sm resize-y"
+                      />
+                    ) : (
+                      <input
+                        id={f.key}
+                        type={f.type ?? 'text'}
+                        value={values[f.key] ?? ''}
+                        onChange={(e) => setValues({ ...values, [f.key]: e.target.value })}
+                        placeholder={f.placeholder}
+                        className="w-full h-10 rounded-lg border border-border bg-surface px-3 text-text placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors text-sm"
+                      />
+                    )}
                   </div>
                 ))}
               </div>

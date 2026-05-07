@@ -7,8 +7,8 @@ import { Phone, MessageCircle, ShieldCheck, AlertTriangle } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
 import PageHero from "@/components/ui/PageHero";
 import SupportContactSection from "@/components/sections/SupportContactSection";
-import { supportSectionImage, howToSteps } from "@/lib/content";
-import { getHero, getSiteSettings } from "@/lib/data";
+import { supportSectionImage } from "@/lib/content";
+import { getHero, getSiteSettings, getProcessSteps, getPageBlockGroup } from "@/lib/data";
 import { buildContactLinks } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -18,10 +18,17 @@ export const metadata: Metadata = {
 };
 
 export default async function SupportPage() {
-  const [hero, settings] = await Promise.all([
+  const [hero, settings, processSteps, crisisBlock, anonBlock, hiwBlock] = await Promise.all([
     getHero("support"),
     getSiteSettings(),
+    getProcessSteps(),
+    getPageBlockGroup('support_crisis_card'),
+    getPageBlockGroup('support_anonymous_card'),
+    getPageBlockGroup('support_how_it_works'),
   ]);
+  const subjectOptions = settings.form_subjects_support
+    ? settings.form_subjects_support.split('\n').filter(Boolean)
+    : ['General Inquiry', 'Support for Myself', 'Support for Someone I Know', 'Volunteer Opportunities', 'Advocacy Programs']
 
   const pageHero = hero ?? {
     eyebrow: "Get Support",
@@ -66,13 +73,11 @@ export default async function SupportPage() {
                     id="urgent-heading"
                     className="font-heading text-xl font-bold"
                   >
-                    Urgent Mental Health Support
+                    {crisisBlock.heading || "Urgent Mental Health Support"}
                   </h2>
                 </div>
                 <p className="text-text-muted leading-relaxed mb-8">
-                  If you or a mother you know is in immediate distress,
-                  experiencing intrusive thoughts, or feeling overwhelmed,
-                  please reach out now. Our trained responders are available.
+                  {crisisBlock.description || "If you or a mother you know is in immediate distress, experiencing intrusive thoughts, or feeling overwhelmed, please reach out now. Our trained responders are available."}
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <a
@@ -111,11 +116,10 @@ export default async function SupportPage() {
                 aria-hidden="true"
               />
               <h3 className="font-heading text-xl font-bold mb-4">
-                Safe &amp; Anonymous
+                {anonBlock.heading || "Safe & Anonymous"}
               </h3>
               <p className="text-white/80 text-base leading-relaxed mb-6">
-                Your privacy is our priority. Every conversation is strictly
-                confidential and handled with cultural sensitivity.
+                {anonBlock.description || "Your privacy is our priority. Every conversation is strictly confidential and handled with cultural sensitivity."}
               </p>
               <div
                 className="h-1 w-12 bg-white/30 rounded-full"
@@ -134,8 +138,8 @@ export default async function SupportPage() {
         <div className="container-default">
           <SectionHeader
             eyebrow="How It Works"
-            title="How to take the first step"
-            description="We've made it as simple and gentle as possible to access the care you deserve."
+            title={hiwBlock.title || "How to take the first step"}
+            description={hiwBlock.description || "We've made it as simple and gentle as possible to access the care you deserve."}
             centered
           />
           <div className="mt-16 relative">
@@ -148,8 +152,8 @@ export default async function SupportPage() {
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 relative z-10"
               aria-label="Steps to get support"
             >
-              {howToSteps.map((step, index) => (
-                <li key={step.step} className="group">
+              {processSteps.map((step, index) => (
+                <li key={step.id} className="group">
                   <div className="w-16 h-16 rounded-full bg-surface border-2 border-border flex items-center justify-center mb-6 mx-auto group-hover:bg-primary group-hover:border-primary transition-all duration-200">
                     <span className="font-heading text-xl font-bold text-primary group-hover:text-white transition-colors duration-200">
                       {index + 1}
@@ -177,6 +181,7 @@ export default async function SupportPage() {
         phone={phone}
         address={address}
         officeHours={officeHours}
+        subjectOptions={subjectOptions}
       />
     </>
   );

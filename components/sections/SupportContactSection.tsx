@@ -9,7 +9,16 @@ interface SupportContactSectionProps {
   phone: string;
   address: string;
   officeHours: string;
+  subjectOptions?: string[];
 }
+
+const defaultSubjects = [
+  "General Inquiry",
+  "Support for Myself",
+  "Support for Someone I Know",
+  "Volunteer Opportunities",
+  "Advocacy Programs",
+];
 
 export default function SupportContactSection({
   emailSupport,
@@ -17,7 +26,9 @@ export default function SupportContactSection({
   phone,
   address,
   officeHours,
+  subjectOptions,
 }: SupportContactSectionProps) {
+  const subjects = subjectOptions?.length ? subjectOptions : defaultSubjects;
   const [status, setStatus] = useState<
     "idle" | "submitting" | "submitted" | "error"
   >("idle");

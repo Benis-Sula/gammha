@@ -20,7 +20,7 @@ import IconBox from "@/components/ui/IconBox";
 import SectionHeader from "@/components/ui/SectionHeader";
 import CTABanner from "@/components/sections/CTABanner";
 import { homepageImages } from "@/lib/content";
-import { getFocusAreas, getStatsByGroup, getHero, getSiteSettings, type HeroData } from "@/lib/data";
+import { getFocusAreas, getStatsByGroup, getHero, getSiteSettings, getPageBlockGroup, getFeaturedResourceArticles, type HeroData } from "@/lib/data";
 import { buildContactLinks } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -32,26 +32,30 @@ export const metadata: Metadata = {
 const iconMap: Record<string, LucideIcon> = { Shield, Heart, BookOpen, Users };
 
 export default async function HomePage() {
-  const [focusAreas, problemStats, homeHero, settings] = await Promise.all([
+  const [focusAreas, problemStats, homeHero, settings, aboutBlock, missionBlock, ctaBlock, featuredArticles] = await Promise.all([
     getFocusAreas(),
     getStatsByGroup('homepage'),
     getHero('home'),
     getSiteSettings(),
+    getPageBlockGroup('homepage_about_preview'),
+    getPageBlockGroup('homepage_mission_card'),
+    getPageBlockGroup('cta_homepage'),
+    getFeaturedResourceArticles(),
   ])
   return (
     <>
       <HeroSection hero={homeHero} settings={settings} />
       <ProblemSection problemStats={problemStats} />
       <FocusAreasSection focusAreas={focusAreas} />
-      <AboutPreviewSection />
-      <ResourcesPreviewSection />
+      <AboutPreviewSection aboutBlock={aboutBlock} missionBlock={missionBlock} />
+      <ResourcesPreviewSection articles={featuredArticles} />
       <CTABanner
-        title="Join the Movement for Mothers"
-        description="Every mother deserves to feel well. Your support helps us reach more mothers across The Gambia."
-        primaryLabel="Donate Today"
-        primaryHref="/donate"
-        secondaryLabel="Get Involved"
-        secondaryHref="/advocacy"
+        title={ctaBlock.title || "Join the Movement for Mothers"}
+        description={ctaBlock.description || "Every mother deserves to feel well. Your support helps us reach more mothers across The Gambia."}
+        primaryLabel={ctaBlock.primary_label || "Donate Today"}
+        primaryHref={ctaBlock.primary_href || "/donate"}
+        secondaryLabel={ctaBlock.secondary_label || "Get Involved"}
+        secondaryHref={ctaBlock.secondary_href || "/advocacy"}
       />
     </>
   );
@@ -267,7 +271,21 @@ function FocusAreasSection({ focusAreas }: { focusAreas: { iconName: string; tit
   );
 }
 
-function AboutPreviewSection() {
+function AboutPreviewSection({ aboutBlock, missionBlock }: { aboutBlock: Record<string, string>; missionBlock: Record<string, string> }) {
+  const eyebrow = aboutBlock.eyebrow || "About GAMMHA"
+  const title = aboutBlock.title || "Championing Mothers' Mental Health Since Day One"
+  const description = aboutBlock.description || "GAMMHA was founded to address a critical gap — maternal mental health conditions in The Gambia are common, but support is rare. We are changing that."
+  const bullets = [
+    aboutBlock.bullet_0 || "Raising awareness in communities and health facilities",
+    aboutBlock.bullet_1 || "Training health workers to identify and support mothers",
+    aboutBlock.bullet_2 || "Advocating for national mental health policies",
+    aboutBlock.bullet_3 || "Providing a safe space for mothers to seek help",
+  ]
+  const missionEyebrow = missionBlock.mission_eyebrow || "Our Mission"
+  const missionText = missionBlock.mission_text || "To ensure every mother in The Gambia has access to mental health awareness, support, and the care she deserves."
+  const visionEyebrow = missionBlock.vision_eyebrow || "Our Vision"
+  const visionText = missionBlock.vision_text || "A Gambia where maternal mental health is understood, valued, and prioritised by families, communities, and government alike."
+
   return (
     <section
       className="section-padding bg-surface-alt"
@@ -277,17 +295,12 @@ function AboutPreviewSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <SectionHeader
-              eyebrow="About GAMMHA"
-              title="Championing Mothers' Mental Health Since Day One"
-              description="GAMMHA was founded to address a critical gap — maternal mental health conditions in The Gambia are common, but support is rare. We are changing that."
+              eyebrow={eyebrow}
+              title={title}
+              description={description}
             />
             <ul className="mt-8 flex flex-col gap-4" role="list">
-              {[
-                "Raising awareness in communities and health facilities",
-                "Training health workers to identify and support mothers",
-                "Advocating for national mental health policies",
-                "Providing a safe space for mothers to seek help",
-              ].map((item) => (
+              {bullets.map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <div
                     className="w-5 h-5 rounded-full bg-primary flex items-center justify-center flex-shrink-0 mt-0.5"
@@ -321,16 +334,14 @@ function AboutPreviewSection() {
           </div>
 
           <div className="bg-primary rounded-2xl p-8 md:p-10 text-white">
-            <p className="eyebrow text-white/70 mb-4">Our Mission</p>
+            <p className="eyebrow text-white/70 mb-4">{missionEyebrow}</p>
             <blockquote className="font-heading text-2xl md:text-3xl font-semibold leading-snug text-balance">
-              &ldquo;To ensure every mother in The Gambia has access to mental
-              health awareness, support, and the care she deserves.&rdquo;
+              &ldquo;{missionText}&rdquo;
             </blockquote>
             <div className="mt-8 pt-6 border-t border-white/20">
-              <p className="eyebrow text-white/70 mb-4">Our Vision</p>
+              <p className="eyebrow text-white/70 mb-4">{visionEyebrow}</p>
               <p className="text-white/85 leading-relaxed">
-                A Gambia where maternal mental health is understood, valued, and
-                prioritised by families, communities, and government alike.
+                {visionText}
               </p>
             </div>
             <div className="mt-8 pt-6 border-t border-white/20 flex flex-col sm:flex-row gap-3">
@@ -350,29 +361,11 @@ function AboutPreviewSection() {
   );
 }
 
-function ResourcesPreviewSection() {
-  const resources = [
-    {
-      title: "What is Postpartum Depression?",
-      description:
-        "Learn about the signs, symptoms, and how to get help if you or someone you know is affected.",
-      tag: "Guide",
-      href: "/mental-health#postpartum",
-    },
-    {
-      title: "Supporting a Mother with Anxiety",
-      description:
-        "Practical advice for family members and caregivers on how to provide meaningful support.",
-      tag: "Article",
-      href: "/resources",
-    },
-    {
-      title: "When to Seek Professional Help",
-      description:
-        "A clear guide on when symptoms require professional mental health support and how to access it.",
-      tag: "Guide",
-      href: "/mental-health#seek-help",
-    },
+function ResourcesPreviewSection({ articles }: { articles: { id: string; tag: string; title: string; description: string; href: string }[] }) {
+  const resources = articles.length > 0 ? articles : [
+    { id: '0', title: "What is Postpartum Depression?", description: "Learn about the signs, symptoms, and how to get help if you or someone you know is affected.", tag: "Guide", href: "/mental-health#postpartum" },
+    { id: '1', title: "Supporting a Mother with Anxiety", description: "Practical advice for family members and caregivers on how to provide meaningful support.", tag: "Article", href: "/resources" },
+    { id: '2', title: "When to Seek Professional Help", description: "A clear guide on when symptoms require professional mental health support and how to access it.", tag: "Guide", href: "/mental-health#seek-help" },
   ];
 
   return (
@@ -395,7 +388,7 @@ function ResourcesPreviewSection() {
 
         <ul className="grid grid-cols-1 md:grid-cols-3 gap-6" role="list">
           {resources.map((resource) => (
-            <li key={resource.title}>
+            <li key={resource.id || resource.title}>
               <Card hover className="h-full flex flex-col">
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-alt text-primary border border-primary/20 w-fit mb-4">
                   {resource.tag}

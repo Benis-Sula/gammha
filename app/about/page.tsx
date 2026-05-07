@@ -10,12 +10,8 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import Card from "@/components/ui/Card";
 import IconBox from "@/components/ui/IconBox";
 import CTABanner from "@/components/sections/CTABanner";
-import {
-  aboutSectionImage,
-  aboutValues,
-  teamMembers,
-} from "@/lib/content";
-import { getStatsByGroup, getHero } from "@/lib/data";
+import { aboutSectionImage } from "@/lib/content";
+import { getStatsByGroup, getHero, getTeamMembers, getValueCards, getPageBlockGroup } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "About",
@@ -26,9 +22,16 @@ export const metadata: Metadata = {
 const iconMap: Record<string, LucideIcon> = { Heart, Users, Award, Target, Megaphone };
 
 export default async function AboutPage() {
-  const [aboutStats, hero] = await Promise.all([
+  const [aboutStats, hero, teamMembers, valueCards, missionBlock, visionBlock, whyBlock, supportQuoteBlock, ctaBlock] = await Promise.all([
     getStatsByGroup("about"),
     getHero("about"),
+    getTeamMembers(),
+    getValueCards(),
+    getPageBlockGroup('about_mission'),
+    getPageBlockGroup('about_vision'),
+    getPageBlockGroup('about_why_it_matters'),
+    getPageBlockGroup('about_support_quote'),
+    getPageBlockGroup('cta_about'),
   ]);
 
   const pageHero = hero ?? {
@@ -97,14 +100,10 @@ export default async function AboutPage() {
                 <Target className="w-6 h-6 text-primary" aria-hidden="true" />
               </div>
               <h3 className="font-heading text-2xl font-semibold text-primary">
-                Our Mission
+                {missionBlock.title || "Our Mission"}
               </h3>
               <p className="text-text-muted leading-relaxed">
-                To provide accessible, culturally-competent mental health
-                resources and support systems for mothers and families in the
-                Gambia. We aim to break the silence surrounding maternal mental
-                health through education, community engagement, and direct
-                intervention.
+                {missionBlock.description || "To provide accessible, culturally-competent mental health resources and support systems for mothers and families in the Gambia."}
               </p>
             </div>
 
@@ -113,13 +112,10 @@ export default async function AboutPage() {
                 <Eye className="w-6 h-6 text-accent" aria-hidden="true" />
               </div>
               <h3 className="font-heading text-2xl font-semibold text-accent">
-                Our Vision
+                {visionBlock.title || "Our Vision"}
               </h3>
               <p className="text-text-muted leading-relaxed">
-                A nation where every mother is seen, heard, and supported in
-                her mental health journey. We envision a future where maternal
-                mental health services are integrated into every level of
-                healthcare and community support is a standard for all families.
+                {visionBlock.description || "A nation where every mother is seen, heard, and supported in her mental health journey."}
               </p>
             </div>
           </div>
@@ -135,7 +131,7 @@ export default async function AboutPage() {
           <SectionHeader
             eyebrow="Why It Matters"
             title="Maternal Mental Health is a Health Emergency"
-            description="Conditions like postpartum depression and anxiety during pregnancy are among the most common health complications mothers face — yet most women never receive any help."
+            description={whyBlock.description || "Conditions like postpartum depression and anxiety during pregnancy are among the most common health complications mothers face — yet most women never receive any help."}
           />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-card">
@@ -154,12 +150,10 @@ export default async function AboutPage() {
                 </div>
                 <div>
                   <p className="font-heading text-base font-semibold text-text leading-snug">
-                    No mother should face this alone.
+                    {supportQuoteBlock.heading || "No mother should face this alone."}
                   </p>
                   <p className="mt-1 text-sm text-text-muted leading-relaxed">
-                    GAMMHA provides free, confidential support to mothers across
-                    The Gambia — through counselling, community networks, and
-                    trained health workers.
+                    {supportQuoteBlock.description || "GAMMHA provides free, confidential support to mothers across The Gambia — through counselling, community networks, and trained health workers."}
                   </p>
                   <Button
                     href="/support"
@@ -204,7 +198,7 @@ export default async function AboutPage() {
             className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
             role="list"
           >
-            {aboutValues.map((value) => {
+            {valueCards.map((value) => {
               const Icon = iconMap[value.iconName];
               return (
                 <li key={value.title}>
@@ -282,12 +276,12 @@ export default async function AboutPage() {
       </section>
 
       <CTABanner
-        title="Be Part of the Change"
-        description="Support GAMMHA's work and help us reach more mothers across The Gambia."
-        primaryLabel="Donate"
-        primaryHref="/donate"
-        secondaryLabel="Get Involved"
-        secondaryHref="/advocacy"
+        title={ctaBlock.title || "Be Part of the Change"}
+        description={ctaBlock.description || "Support GAMMHA's work and help us reach more mothers across The Gambia."}
+        primaryLabel={ctaBlock.primary_label || "Donate"}
+        primaryHref={ctaBlock.primary_href || "/donate"}
+        secondaryLabel={ctaBlock.secondary_label || "Get Involved"}
+        secondaryHref={ctaBlock.secondary_href || "/advocacy"}
       />
     </>
   );

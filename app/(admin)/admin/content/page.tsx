@@ -6,7 +6,7 @@ import AdminPageHeader from '@/components/admin/AdminPageHeader'
 import {
   Users, Megaphone, HeartPulse, BookOpen,
   BarChart2, Heart, Home, Headphones, Scale, Settings,
-  Image as ImageIcon, TriangleAlert,
+  Image as ImageIcon, TriangleAlert, FileText, Award, ListOrdered, Navigation,
 } from 'lucide-react'
 
 const sections = [
@@ -91,7 +91,35 @@ const sections = [
     href: '/admin/content/settings',
     label: 'Site Settings',
     icon: Settings,
-    description: 'Update contact information, address, and office hours',
+    description: 'Update contact information, address, office hours, navbar labels, and footer text',
+    affects: null,
+  },
+  {
+    href: '/admin/content/page-content',
+    label: 'Page Content Blocks',
+    icon: FileText,
+    description: 'Edit every text section on every page — banners, descriptions, quotes, bullets, and more',
+    affects: null,
+  },
+  {
+    href: '/admin/content/value-cards',
+    label: 'Value Cards',
+    icon: Award,
+    description: 'Edit the four "Our Values" cards on the About page (Empathy, Advocacy, Community, Integrity)',
+    affects: '/about',
+  },
+  {
+    href: '/admin/content/process-steps',
+    label: 'How It Works Steps',
+    icon: ListOrdered,
+    description: 'Edit the numbered steps in the "How to take the first step" section on the Support page',
+    affects: '/support',
+  },
+  {
+    href: '/admin/content/nav-links',
+    label: 'Navigation & Footer Links',
+    icon: Navigation,
+    description: 'Manage navbar links, footer link columns, and social media links',
     affects: null,
   },
 ]

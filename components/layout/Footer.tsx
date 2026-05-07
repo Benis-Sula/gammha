@@ -34,11 +34,16 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 font-heading font-bold text-xl text-white hover:text-white/80 transition-colors duration-200"
+              className="inline-flex items-center mb-6"
               aria-label="GAMMHA Home"
             >
-              <Heart className="w-6 h-6 text-accent" aria-hidden="true" />
-              GAMMHA
+              <Image
+                src="/brand/gammha.png"
+                alt="GAMMHA Logo"
+                width={160}
+                height={48}
+                className="h-10 w-auto object-contain brightness-0 invert"
+              />
             </Link>
             <p className="mt-4 text-white/80 text-base leading-relaxed max-w-sm">
               Gambia Alliance for Maternal Mental Health &amp; Advocacy.

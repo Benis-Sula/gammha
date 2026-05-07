@@ -8,9 +8,11 @@ interface Props {
   saved?: boolean
   label?: string
   className?: string
+  onClick?: () => void
+  type?: 'submit' | 'button' | 'reset'
 }
 
-export default function AdminSaveButton({ isLoading, saved, label = 'Save changes', className = '' }: Props) {
+export default function AdminSaveButton({ isLoading, saved, label = 'Save changes', className = '', onClick, type = 'submit' }: Props) {
   const [showCheck, setShowCheck] = useState(false)
 
   useEffect(() => {
@@ -23,7 +25,8 @@ export default function AdminSaveButton({ isLoading, saved, label = 'Save change
 
   return (
     <button
-      type="submit"
+      type={type}
+      onClick={onClick}
       disabled={isLoading}
       className={`inline-flex items-center justify-center gap-2 h-10 px-5 rounded-lg text-sm font-medium transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer
         ${showCheck

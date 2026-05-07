@@ -55,6 +55,7 @@ model ResourceArticle {
   description String
   readTime    String
   href        String
+  featured    Boolean  @default(false)
   order       Int      @default(0)
   updatedAt   DateTime @updatedAt
 }
@@ -144,4 +145,41 @@ model ContactSubmission {
   message   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
+}
+
+model PageBlock {
+  id        String   @id @default(cuid())
+  group     String
+  key       String
+  value     String
+  order     Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@unique([group, key])
+}
+
+model ValueCard {
+  id          String   @id @default(cuid())
+  iconName    String
+  title       String
+  description String
+  order       Int      @default(0)
+  updatedAt   DateTime @updatedAt
+}
+
+model ProcessStep {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  order       Int      @default(0)
+  updatedAt   DateTime @updatedAt
+}
+
+model NavLink {
+  id       String  @id @default(cuid())
+  group    String
+  label    String
+  href     String
+  iconName String?
+  order    Int     @default(0)
 }

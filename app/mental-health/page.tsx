@@ -11,11 +11,8 @@ import Button from "@/components/ui/Button";
 import BulletList from "@/components/ui/BulletList";
 import CTABanner from "@/components/sections/CTABanner";
 import PageHero from "@/components/ui/PageHero";
-import {
-  mentalHealthSectionImage,
-  mentalHealthKeyFacts,
-} from "@/lib/content";
-import { getConditions, getWarningSigns, getHero, getSiteSettings } from "@/lib/data";
+import { mentalHealthSectionImage } from "@/lib/content";
+import { getConditions, getWarningSigns, getHero, getSiteSettings, getPageBlockGroup } from "@/lib/data";
 import { buildContactLinks } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -25,13 +22,18 @@ export const metadata: Metadata = {
 };
 
 export default async function MentalHealthPage() {
-  const [conditions, warningSigns, alsoSeekHelp, hero, settings] = await Promise.all([
+  const [conditions, warningSigns, alsoSeekHelp, hero, settings, whatIsItBlock, keyFactsBlock, emotionalBlock, ctaBlock] = await Promise.all([
     getConditions(),
     getWarningSigns('warning'),
     getWarningSigns('also-seek'),
     getHero('mental-health'),
     getSiteSettings(),
+    getPageBlockGroup('mh_what_is_it'),
+    getPageBlockGroup('mh_key_facts'),
+    getPageBlockGroup('mh_emotional_support'),
+    getPageBlockGroup('cta_mental_health'),
   ])
+  const keyFacts = [0, 1, 2, 3, 4].map((i) => keyFactsBlock[`fact_${i}`]).filter(Boolean)
   const pageHero = hero ?? { eyebrow: 'Mental Health', title: 'Understanding Maternal Mental Health', description: 'Learn about the conditions that affect mothers during and after pregnancy, and how to get the support you need.', image: { src: 'https://images.unsplash.com/photo-1576765608866-5b51046452be?w=800&q=80', alt: 'Mother and child' } }
   const phone = settings.contact_phone || "+220 123 4567";
   const { phoneTel } = buildContactLinks(phone);
@@ -49,7 +51,7 @@ export default async function MentalHealthPage() {
               <SectionHeader
                 eyebrow="What Is It?"
                 title="Mental Health During Pregnancy and After Birth"
-                description="Maternal mental health refers to how a mother feels emotionally and psychologically during pregnancy and in the year after giving birth. Changes in hormones, body, life, and responsibility can all affect mental wellbeing."
+                description={whatIsItBlock.description || "Maternal mental health refers to how a mother feels emotionally and psychologically during pregnancy and in the year after giving birth."}
               />
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-card">
                 <Image
@@ -73,7 +75,7 @@ export default async function MentalHealthPage() {
                   </p>
                 </div>
                 <ul className="flex flex-col gap-4" role="list">
-                  {mentalHealthKeyFacts.map((point) => (
+                  {keyFacts.map((point) => (
                     <li key={point} className="flex items-start gap-3">
                       <CheckCircle
                         className="w-5 h-5 text-white/70 flex-shrink-0 mt-0.5"
@@ -89,25 +91,19 @@ export default async function MentalHealthPage() {
               <div className="rounded-2xl border border-border bg-white p-8 flex flex-col gap-6">
                 <div>
                   <p className="font-heading text-xl font-bold text-text mb-2 text-balance">
-                    You are not broken. You are not a bad mother.
+                    {emotionalBlock.heading || "You are not broken. You are not a bad mother."}
                   </p>
                   <p className="text-text-muted leading-relaxed">
-                    What you are feeling has a name, a cause, and — most
-                    importantly — a solution. Thousands of mothers have walked
-                    this path before you, and they recovered. With the right
-                    support, so can you.
+                    {emotionalBlock.description || "What you are feeling has a name, a cause, and — most importantly — a solution. Thousands of mothers have walked this path before you, and they recovered. With the right support, so can you."}
                   </p>
                 </div>
 
                 <blockquote className="border-l-4 border-primary pl-5">
                   <p className="text-text-muted italic leading-relaxed">
-                    &ldquo;I was ashamed to tell anyone what I was going
-                    through. When I finally reached out to GAMMHA, I realised I
-                    was not alone — and that was the beginning of my
-                    recovery.&rdquo;
+                    &ldquo;{emotionalBlock.quote_text || "I was ashamed to tell anyone what I was going through. When I finally reached out to GAMMHA, I realised I was not alone — and that was the beginning of my recovery."}&rdquo;
                   </p>
                   <footer className="mt-3 text-sm font-semibold text-primary">
-                    — Aminata, mother of two, Banjul
+                    — {emotionalBlock.quote_attribution || "Aminata, mother of two, Banjul"}
                   </footer>
                 </blockquote>
 
@@ -215,12 +211,12 @@ export default async function MentalHealthPage() {
       </section>
 
       <CTABanner
-        title="You Do Not Have to Face This Alone"
-        description="GAMMHA is here to help. Reach out today and take the first step toward feeling better."
-        primaryLabel="Get Support"
-        primaryHref="/support"
-        secondaryLabel="Read Resources"
-        secondaryHref="/resources"
+        title={ctaBlock.title || "You Do Not Have to Face This Alone"}
+        description={ctaBlock.description || "GAMMHA is here to help. Reach out today and take the first step toward feeling better."}
+        primaryLabel={ctaBlock.primary_label || "Get Support"}
+        primaryHref={ctaBlock.primary_href || "/support"}
+        secondaryLabel={ctaBlock.secondary_label || "Read Resources"}
+        secondaryHref={ctaBlock.secondary_href || "/resources"}
       />
     </>
   );

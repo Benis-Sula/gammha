@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, Heart } from "lucide-react";
 
@@ -66,11 +67,17 @@ export default function Navbar() {
         <Link
           href="/"
           onClick={close}
-          className="flex items-center gap-2 font-heading text-xl text-primary hover:text-primary-light transition-colors duration-200"
+          className="flex items-center"
           aria-label="GAMMHA Home"
         >
-          <Heart className="w-6 h-6 text-accent" aria-hidden="true" />
-          <span className="font-heading font-bold">GAMMHA</span>
+          <Image
+            src="/brand/gammha.png"
+            alt="GAMMHA Logo"
+            width={160}
+            height={48}
+            className="h-9 w-auto object-contain"
+            priority
+          />
         </Link>
 
         {/* Desktop nav */}

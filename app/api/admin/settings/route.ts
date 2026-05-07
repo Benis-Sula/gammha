@@ -28,7 +28,13 @@ export async function PATCH(req: Request) {
       })
     )
   )
+  revalidatePath('/', 'layout')
   revalidatePath('/contact')
   revalidatePath('/support')
+  revalidatePath('/about')
+  revalidatePath('/mental-health')
+  revalidatePath('/advocacy')
+  revalidatePath('/resources')
+  revalidatePath('/donate')
   return NextResponse.json({ ok: true })
 }

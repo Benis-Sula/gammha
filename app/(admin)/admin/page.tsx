@@ -8,6 +8,7 @@ import {
   Users, Megaphone, HeartPulse, BookOpen, Home,
   Headphones, Scale, Settings, Inbox, BarChart2, Heart, FileText,
   ArrowRight, TrendingUp, Image as ImageIcon, TriangleAlert,
+  Award, ListOrdered, Navigation,
 } from 'lucide-react'
 
 const contentSections = [
@@ -23,12 +24,17 @@ const contentSections = [
   { href: '/admin/content/support', label: 'Support Channels', icon: Headphones, description: 'Phone, WhatsApp, email channels', countKey: 'supportChannels' },
   { href: '/admin/content/advocacy', label: 'Advocacy', icon: Scale, description: 'Involvement options and policy items', countKey: 'policyItems' },
   { href: '/admin/content/settings', label: 'Site Settings', icon: Settings, description: 'Contact info and office hours', countKey: null },
+  { href: '/admin/content/page-content', label: 'Page Content Blocks', icon: FileText, description: 'All page text — banners, quotes, bullets', countKey: 'pageBlocks' },
+  { href: '/admin/content/value-cards', label: 'Value Cards', icon: Award, description: 'About page "Our Values" section', countKey: 'valueCards' },
+  { href: '/admin/content/process-steps', label: 'How It Works Steps', icon: ListOrdered, description: 'Support page numbered steps', countKey: 'processSteps' },
+  { href: '/admin/content/nav-links', label: 'Navigation & Footer Links', icon: Navigation, description: 'Navbar, footer, and social links', countKey: 'navLinks' },
 ]
 
 export default async function AdminDashboard() {
   let totalSubmissions = 0, unreadCount = 0, heroSections = 0, teamMembers = 0,
     campaigns = 0, conditions = 0, warningSigns = 0, resourceArticles = 0, stats = 0,
-    donationTiers = 0, focusAreas = 0, supportChannels = 0, policyItems = 0
+    donationTiers = 0, focusAreas = 0, supportChannels = 0, policyItems = 0,
+    pageBlocks = 0, valueCards = 0, processSteps = 0, navLinks = 0
   let recentSubmissions: ContactSubmission[] = []
   let dbError = false
 
@@ -47,6 +53,10 @@ export default async function AdminDashboard() {
       focusAreas,
       supportChannels,
       policyItems,
+      pageBlocks,
+      valueCards,
+      processSteps,
+      navLinks,
       recentSubmissions,
     ] = await Promise.all([
       prisma.contactSubmission.count(),
@@ -62,6 +72,10 @@ export default async function AdminDashboard() {
       prisma.focusArea.count(),
       prisma.supportChannel.count(),
       prisma.policyItem.count(),
+      prisma.pageBlock.count(),
+      prisma.valueCard.count(),
+      prisma.processStep.count(),
+      prisma.navLink.count(),
       prisma.contactSubmission.findMany({ orderBy: { createdAt: 'desc' }, take: 5 }),
     ])
   } catch {
@@ -72,6 +86,7 @@ export default async function AdminDashboard() {
     heroSections, teamMembers, campaigns, conditions, warningSigns,
     resources: resourceArticles, stats, donationTiers,
     focusAreas, supportChannels, policyItems,
+    pageBlocks, valueCards, processSteps, navLinks,
   }
 
   return (

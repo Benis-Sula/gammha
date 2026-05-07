@@ -14,9 +14,9 @@ import AdminEmptyState from '@/components/admin/AdminEmptyState'
 import AdminListSkeleton from '@/components/admin/AdminListSkeleton'
 import { Plus, Pencil, Trash2, ExternalLink } from 'lucide-react'
 
-interface Article { id: string; tag: string; title: string; description: string; readTime: string; href: string }
+interface Article { id: string; tag: string; title: string; description: string; readTime: string; href: string; featured: boolean }
 interface ExtLink { id: string; name: string; href: string; description: string }
-type ArtForm = { tag: string; title: string; description: string; readTime: string; href: string }
+type ArtForm = { tag: string; title: string; description: string; readTime: string; href: string; featured: boolean }
 type LinkForm = { name: string; href: string; description: string }
 
 export default function ResourcesPage() {
@@ -91,6 +91,10 @@ export default function ResourcesPage() {
             <AdminFormField label="Title" name="title" required register={artForm.register('title', { required: 'Required' })} error={artForm.formState.errors.title?.message} />
             <AdminFormField label="Description" name="description" type="textarea" rows={2} required register={artForm.register('description', { required: 'Required' })} error={artForm.formState.errors.description?.message} />
             <AdminFormField label="Link URL" name="href" register={artForm.register('href')} placeholder="#" />
+            <div className="flex items-center gap-2">
+              <input type="checkbox" id="featured-check" {...artForm.register('featured')} className="w-4 h-4 rounded border-border text-primary" />
+              <label htmlFor="featured-check" className="text-sm text-text-muted">Show on homepage (featured)</label>
+            </div>
             <div className="flex justify-end gap-2"><button type="button" onClick={() => setShowArtForm(false)} className="h-9 px-4 rounded-lg border border-border text-sm text-text hover:bg-gray-50 transition-colors cursor-pointer">Cancel</button><AdminSaveButton isLoading={saving} saved={saved} /></div>
           </form>
         )}
@@ -99,7 +103,10 @@ export default function ResourcesPage() {
             {articles.map((a) => (
               <li key={a.id} className="flex items-start gap-3 py-3">
                 <div className="flex-1 min-w-0">
-                  <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-0.5 rounded">{a.tag}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-0.5 rounded">{a.tag}</span>
+                    {a.featured && <span className="text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">Featured</span>}
+                  </div>
                   <p className="font-medium text-text text-sm mt-1">{a.title}</p>
                   <p className="text-text-muted text-xs mt-0.5">{a.readTime}</p>
                 </div>
