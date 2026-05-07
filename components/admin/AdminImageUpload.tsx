@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import Image from 'next/image'
 import { Upload, Link, X, ImageIcon, Loader2, AlertCircle } from 'lucide-react'
 import { useUploadThing } from '@/lib/uploadthing'
 
@@ -140,9 +141,11 @@ export default function AdminImageUpload({ value, onChange, label = 'Image', req
       {/* Current image preview */}
       {value && (
         <div className="flex items-center gap-3 p-3 rounded-xl border border-border bg-surface">
-          <img
+          <Image
             src={value}
             alt="Current image"
+            width={80}
+            height={56}
             className="w-20 h-14 rounded-lg object-cover shrink-0 bg-gray-100 border border-border"
           />
           <div className="flex-1 min-w-0">

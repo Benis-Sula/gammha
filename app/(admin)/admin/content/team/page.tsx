@@ -3,6 +3,7 @@
 export const dynamic = "force-dynamic";
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { useForm } from 'react-hook-form'
 import AdminPageHeader from '@/components/admin/AdminPageHeader'
 import AdminCard from '@/components/admin/AdminCard'
@@ -127,7 +128,7 @@ export default function TeamPage() {
             {members.map((m) => (
               <li key={m.id} className="flex items-start gap-4 py-4">
                 {m.image ? (
-                  <img src={m.image} alt={m.name} className="w-10 h-10 rounded-full object-cover shrink-0 bg-gray-100" />
+                  <Image src={m.image} alt={m.name} width={40} height={40} className="w-10 h-10 rounded-full object-cover shrink-0 bg-gray-100" />
                 ) : (
                   <div className="w-10 h-10 rounded-full bg-surface-alt flex items-center justify-center text-primary font-semibold text-sm shrink-0">
                     {m.name[0]}
