@@ -361,7 +361,7 @@ function AboutPreviewSection({ aboutBlock, missionBlock }: { aboutBlock: Record<
   );
 }
 
-function ResourcesPreviewSection({ articles }: { articles: { id: string; tag: string; title: string; description: string; href: string }[] }) {
+function ResourcesPreviewSection({ articles }: { articles: { id?: string; tag: string; title: string; description: string; href: string }[] }) {
   const resources = articles.length > 0 ? articles : [
     { id: '0', title: "What is Postpartum Depression?", description: "Learn about the signs, symptoms, and how to get help if you or someone you know is affected.", tag: "Guide", href: "/mental-health#postpartum" },
     { id: '1', title: "Supporting a Mother with Anxiety", description: "Practical advice for family members and caregivers on how to provide meaningful support.", tag: "Article", href: "/resources" },
