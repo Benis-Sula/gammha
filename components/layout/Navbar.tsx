@@ -61,7 +61,7 @@ export default function Navbar() {
       }`}
     >
       <nav
-        className="container-default flex items-center justify-between h-16"
+        className="container-default flex items-center justify-between h-20"
         aria-label="Main navigation"
       >
         <Link
@@ -73,9 +73,9 @@ export default function Navbar() {
           <Image
             src="/brand/gammha.png"
             alt="GAMMHA Logo"
-            width={240}
-            height={72}
-            className="h-12 md:h-14 w-auto object-contain"
+            width={280}
+            height={84}
+            className="h-14 md:h-16 w-auto object-contain"
             priority
           />
         </Link>
