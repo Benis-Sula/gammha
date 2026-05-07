@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Heart, Mail, Phone, MapPin, Facebook, Twitter, Instagram } from "lucide-react";
 import {
   CONTACT_PHONE,
